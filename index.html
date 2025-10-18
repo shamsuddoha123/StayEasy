@@ -111,6 +111,17 @@
             color: var(--accent-yellow);
         }
 
+        /* Added mobile menu toggle button */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--bg-white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
         .navbar-nav {
             display: flex;
             gap: 2rem;
@@ -295,6 +306,7 @@
             margin-top: 1rem;
             padding-top: 1rem;
             border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
         }
 
         /* ===== FORMS ===== */
@@ -410,6 +422,7 @@
             display: flex;
             gap: 1rem;
             justify-content: flex-end;
+            flex-wrap: wrap;
         }
 
         /* ===== ALERTS ===== */
@@ -469,6 +482,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .flex-center {
@@ -530,6 +544,7 @@
             gap: 0;
             border-bottom: 2px solid var(--border-color);
             margin-bottom: 2rem;
+            flex-wrap: wrap;
         }
 
         .tab-btn {
@@ -671,6 +686,7 @@
             color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
             transition: var(--transition);
+            cursor: pointer;
         }
 
         .footer-section a:hover {
@@ -710,14 +726,56 @@
         }
 
         /* ===== RESPONSIVE ===== */
+        /* Enhanced responsive design for mobile and tablet */
         @media (max-width: 768px) {
-            h1 { font-size: 2rem; }
-            h2 { font-size: 1.5rem; }
-            h3 { font-size: 1.25rem; }
+            h1 { font-size: 1.75rem; }
+            h2 { font-size: 1.25rem; }
+            h3 { font-size: 1rem; }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
 
             .navbar-nav {
-                gap: 1rem;
-                font-size: 0.85rem;
+                position: fixed;
+                top: 60px; /* Adjust based on your navbar height */
+                left: 0;
+                right: 0;
+                background-color: var(--primary-navy);
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                z-index: 999; /* Ensure it's below the toggle */
+            }
+
+            .navbar-nav.active {
+                max-height: 500px; /* Adjust as needed */
+            }
+
+            .navbar-nav li {
+                width: 100%;
+            }
+
+            .navbar-nav a {
+                display: block;
+                padding: 1rem 1.5rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .language-toggle {
+                flex-direction: column;
+                gap: 0.25rem;
+                width: 100%;
+                padding: 1rem;
+            }
+
+            .lang-btn {
+                width: 100%;
+                padding: 0.5rem;
+                font-size: 0.75rem;
             }
 
             .hero {
@@ -725,7 +783,7 @@
             }
 
             .hero h1 {
-                font-size: 2rem;
+                font-size: 1.75rem;
             }
 
             .hero p {
@@ -745,6 +803,10 @@
                 grid-template-columns: 1fr;
             }
 
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
             .tabs {
                 flex-wrap: wrap;
             }
@@ -760,8 +822,104 @@
 
             .modal-content {
                 padding: 1.5rem;
+                width: 95%;
+            }
+
+            .card-footer {
+                flex-direction: column;
+            }
+
+            .card-footer .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .modal-footer {
+                flex-direction: column;
+            }
+
+            .modal-footer .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .breadcrumb-list {
+                font-size: 0.8rem;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 0.75rem 0.5rem;
+            }
+
+            .btn-sm {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
             }
         }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            h2 { font-size: 1.1rem; }
+            h3 { font-size: 0.95rem; }
+            p { font-size: 0.9rem; }
+
+            .navbar-logo {
+                font-size: 1.2rem;
+            }
+
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .hero p {
+                font-size: 0.9rem;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .card-header {
+                font-size: 1.1rem;
+            }
+
+            .feature-icon {
+                font-size: 2.5rem;
+            }
+
+            .btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: 0.6rem;
+                font-size: 16px;
+            }
+
+            .footer-content {
+                gap: 1.5rem;
+            }
+
+            .footer-section h4 {
+                font-size: 1rem;
+            }
+
+            .footer-section {
+                font-size: 0.9rem;
+            }
+        }
+
 
         /* ===== PRINT STYLES ===== */
         @media print {
@@ -786,7 +944,7 @@
             }
         }
 
-        /* ===== UTILITY CLASSES ===== */
+        /* ===== UTILITYCLASSES ===== */
         .mt-1 { margin-top: 0.5rem; }
         .mt-2 { margin-top: 1rem; }
         .mt-3 { margin-top: 1.5rem; }
@@ -881,6 +1039,10 @@
                     <i class="fas fa-home"></i>
                     <span data-en="StayEasy" data-bn="স্টে-ইজি">StayEasy</span>
                 </div>
+                <!-- Added mobile menu toggle button -->
+                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <ul class="navbar-nav">
                     <li><a onclick="navigateTo('home')" class="nav-link active" data-en="Home" data-bn="হোম">Home</a></li>
                     <li><a onclick="navigateTo('mess')" class="nav-link" data-en="Mess" data-bn="মেস">Mess</a></li>
@@ -1705,7 +1867,11 @@
             }
         });
 
-        // ===== NAVIGATION =====
+        function toggleMobileMenu() {
+            const navbar = document.querySelector('.navbar-nav');
+            navbar.classList.toggle('active');
+        }
+
         function navigateTo(pageId) {
             // Hide all pages
             document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
@@ -1719,7 +1885,19 @@
 
             // Update navbar active link
             document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-            event.target.classList.add('active');
+            const activeLink = document.querySelector(`[onclick="navigateTo('${pageId}')"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+
+            // Close mobile menu
+            const navbar = document.querySelector('.navbar-nav');
+            if (navbar.classList.contains('active')) {
+                navbar.classList.remove('active');
+            }
+
+            // Push state to browser history
+            window.history.pushState({ page: pageId }, pageId, `#${pageId}`);
 
             // Populate data if needed
             if (pageId === 'mess') {
@@ -1728,6 +1906,30 @@
                 populateMaid();
             }
         }
+
+        window.addEventListener('popstate', (event) => {
+            if (event.state && event.state.page) {
+                const pageId = event.state.page;
+                document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+                const page = document.getElementById(pageId);
+                if (page) {
+                    page.classList.add('active');
+                    window.scrollTo(0, 0);
+                }
+
+                document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+                const activeLink = document.querySelector(`[onclick="navigateTo('${pageId}')"]`);
+                if (activeLink) {
+                    activeLink.classList.add('active');
+                }
+
+                if (pageId === 'mess') {
+                    populateMess();
+                } else if (pageId === 'maid') {
+                    populateMaid();
+                }
+            }
+        });
 
         // ===== MODAL FUNCTIONS =====
         function openModal(modalId) {
@@ -1765,7 +1967,7 @@
                 name: 'Green Valley Mess',
                 location: 'Dhaka',
                 rent: 8000,
-                image: '/placeholder.svg?height=200&width=300',
+                image: 'https://via.placeholder.com/300x200.png?text=Green+Valley+Mess',
                 facilities: ['wifi', 'food', 'security'],
                 verified: true,
                 rating: 4.5,
@@ -1776,7 +1978,7 @@
                 name: 'Comfort Home Mess',
                 location: 'Dhaka',
                 rent: 7500,
-                image: '/placeholder.svg?height=200&width=300',
+                image: 'https://via.placeholder.com/300x200.png?text=Comfort+Home+Mess',
                 facilities: ['wifi', 'food'],
                 verified: true,
                 rating: 4.2,
@@ -1787,7 +1989,7 @@
                 name: 'Elite Residence',
                 location: 'Chittagong',
                 rent: 10000,
-                image: '/placeholder.svg?height=200&width=300',
+                image: 'https://via.placeholder.com/300x200.png?text=Elite+Residence',
                 facilities: ['wifi', 'food', 'security', 'electricity'],
                 verified: true,
                 rating: 4.8,
@@ -1798,7 +2000,7 @@
                 name: 'Budget Stay',
                 location: 'Sylhet',
                 rent: 5000,
-                image: '/placeholder.svg?height=200&width=300',
+                image: 'https://via.placeholder.com/300x200.png?text=Budget+Stay',
                 facilities: ['wifi'],
                 verified: false,
                 rating: 3.8,
@@ -1814,7 +2016,7 @@
                 availability: 'available',
                 experience: 'expert',
                 rate: 5000,
-                image: '/placeholder.svg?height=200&width=200',
+                image: 'https://via.placeholder.com/200x200.png?text=Fatima+Begum',
                 verified: true,
                 rating: 4.7,
                 reviews: 28
@@ -1826,7 +2028,7 @@
                 availability: 'available',
                 experience: 'intermediate',
                 rate: 3000,
-                image: '/placeholder.svg?height=200&width=200',
+                image: 'https://via.placeholder.com/200x200.png?text=Nasrin+Akter',
                 verified: true,
                 rating: 4.3,
                 reviews: 15
@@ -1838,7 +2040,7 @@
                 availability: 'occupied',
                 experience: 'beginner',
                 rate: 2000,
-                image: '/placeholder.svg?height=200&width=200',
+                image: 'https://via.placeholder.com/200x200.png?text=Rehana+Khatun',
                 verified: false,
                 rating: 3.9,
                 reviews: 8
@@ -1850,7 +2052,7 @@
                 availability: 'available',
                 experience: 'intermediate',
                 rate: 4000,
-                image: '/placeholder.svg?height=200&width=200',
+                image: 'https://via.placeholder.com/200x200.png?text=Salma+Begum',
                 verified: true,
                 rating: 4.5,
                 reviews: 22
@@ -1862,7 +2064,7 @@
                 availability: 'available',
                 experience: 'expert',
                 rate: 4500,
-                image: '/placeholder.svg?height=200&width=200',
+                image: 'https://via.placeholder.com/200x200.png?text=Jarina+Akter',
                 verified: true,
                 rating: 4.6,
                 reviews: 31
@@ -1874,7 +2076,7 @@
                 availability: 'available',
                 experience: 'intermediate',
                 rate: 2500,
-                image: '/placeholder.svg?height=200&width=200',
+                image: 'https://via.placeholder.com/200x200.png?text=Mina+Begum',
                 verified: true,
                 rating: 4.2,
                 reviews: 14
@@ -1909,7 +2111,7 @@
                     </div>
                     <div class="card-footer">
                         <button class="btn btn-secondary btn-sm" onclick="viewMessDetails(${mess.id})">View Details</button>
-                        <button class="btn btn-primary btn-sm" onclick="bookMess(${mess.id})">Book Now</button>
+                        <button class="btn btn-primary btn-sm" onclick="bookMess(${mess.id})" ${!mess.verified ? 'disabled' : ''}>Book Now</button>
                     </div>
                 `;
                 container.appendChild(card);
@@ -1917,9 +2119,54 @@
         }
 
         function filterMess() {
-            // Simulate filtering
-            alert('Filtering messes...');
-            populateMess();
+            const location = document.getElementById('messLocation').value;
+            const rent = document.getElementById('messRent').value;
+            const facility = document.getElementById('messFacility').value;
+
+            const filteredMess = messData.filter(mess => {
+                let match = true;
+                if (location && mess.location !== location) match = false;
+                if (rent && mess.rent > parseInt(rent)) match = false;
+                if (facility && !mess.facilities.includes(facility)) match = false;
+                return match;
+            });
+
+            const container = document.getElementById('messContainer');
+            container.innerHTML = '';
+
+            if (filteredMess.length === 0) {
+                container.innerHTML = '<p class="text-center col-span-full">No messes found matching your criteria.</p>';
+                return;
+            }
+
+            filteredMess.forEach(mess => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <img src="${mess.image}" alt="${mess.name}" style="width: 100%; height: 200px; object-fit: cover; border-radius: var(--radius); margin-bottom: 1rem;">
+                    <h3>${mess.name}</h3>
+                    <p class="text-muted">${mess.location}</p>
+                    <div class="flex-between mb-2">
+                        <strong>৳ ${mess.rent}/month</strong>
+                        ${mess.verified ? '<span class="verification-badge"><i class="fas fa-check-circle"></i> Verified</span>' : ''}
+                    </div>
+                    <div class="facility-icons">
+                        ${mess.facilities.includes('wifi') ? '<div class="facility-icon"><i class="fas fa-wifi"></i><span>Wi-Fi</span></div>' : ''}
+                        ${mess.facilities.includes('food') ? '<div class="facility-icon"><i class="fas fa-utensils"></i><span>Food</span></div>' : ''}
+                        ${mess.facilities.includes('security') ? '<div class="facility-icon"><i class="fas fa-shield-alt"></i><span>Security</span></div>' : ''}
+                        ${mess.facilities.includes('electricity') ? '<div class="facility-icon"><i class="fas fa-bolt"></i><span>Electricity</span></div>' : ''}
+                    </div>
+                    <div class="rating mb-2">
+                        <i class="fas fa-star"></i>
+                        <span>${mess.rating} (${mess.reviews} reviews)</span>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-secondary btn-sm" onclick="viewMessDetails(${mess.id})">View Details</button>
+                        <button class="btn btn-primary btn-sm" onclick="bookMess(${mess.id})" ${!mess.verified ? 'disabled' : ''}>Book Now</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
         }
 
         function viewMessDetails(messId) {
@@ -1944,10 +2191,7 @@
                 <div class="mb-2">
                     <strong>Rating:</strong> ${mess.rating} ⭐ (${mess.reviews} reviews)
                 </div>
-                <div class="alert alert-info">
-                    <i class="fas fa-info-circle"></i>
-                    <span>Contact the mess owner for more details and availability.</span>
-                </div>
+                ${mess.verified ? '<div class="alert alert-info"><i class="fas fa-info-circle"></i><span>Contact the mess owner for more details and availability.</span></div>' : '<div class="alert alert-danger"><i class="fas fa-exclamation-triangle"></i><span>This mess is not yet verified. Proceed with caution.</span></div>'}
             `;
             openModal('messModal');
         }
@@ -1994,9 +2238,51 @@
         }
 
         function filterMaid() {
-            // Simulate filtering
-            alert('Filtering maids...');
-            populateMaid();
+            const type = document.getElementById('maidType').value;
+            const availability = document.getElementById('maidAvailability').value;
+            const experience = document.getElementById('maidExperience').value;
+
+            const filteredMaids = maidData.filter(maid => {
+                let match = true;
+                if (type && maid.type !== type) match = false;
+                if (availability && maid.availability !== availability) match = false;
+                if (experience && maid.experience !== experience) match = false;
+                return match;
+            });
+
+            const container = document.getElementById('maidContainer');
+            container.innerHTML = '';
+
+            if (filteredMaids.length === 0) {
+                container.innerHTML = '<p class="text-center col-span-full">No maids found matching your criteria.</p>';
+                return;
+            }
+
+            filteredMaids.forEach(maid => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <img src="${maid.image}" alt="${maid.name}" style="width: 100%; height: 200px; object-fit: cover; border-radius: var(--radius); margin-bottom: 1rem;">
+                    <h3>${maid.name}</h3>
+                    <p class="text-muted">${maid.type.charAt(0).toUpperCase() + maid.type.slice(1)}</p>
+                    <div class="flex-between mb-2">
+                        <strong>৳ ${maid.rate}/month</strong>
+                        <span class="status-badge status-${maid.availability}">${maid.availability.charAt(0).toUpperCase() + maid.availability.slice(1)}</span>
+                    </div>
+                    <div class="mb-2">
+                        <strong>Experience:</strong> ${maid.experience.charAt(0).toUpperCase() + maid.experience.slice(1)}
+                    </div>
+                    <div class="rating mb-2">
+                        <i class="fas fa-star"></i>
+                        <span>${maid.rating} (${maid.reviews} reviews)</span>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-secondary btn-sm" onclick="viewMaidDetails(${maid.id})">View Profile</button>
+                        <button class="btn btn-primary btn-sm" onclick="hireMaid(${maid.id})" ${maid.availability === 'occupied' ? 'disabled' : ''}>Hire Now</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
         }
 
         function viewMaidDetails(maidId) {
@@ -2054,13 +2340,13 @@
         function handleRegister(e) {
             e.preventDefault();
             alert('Registration successful! Please check your email to verify your account.');
-            switchTab('login-tab');
+            switchTab('login-tab'); // Switch back to login tab after registration
         }
 
         function handleComplaint(e) {
             e.preventDefault();
             alert('Complaint submitted successfully! We will review it and get back to you soon.');
-            e.target.reset();
+            e.target.reset(); // Reset the form
         }
 
         function viewComplaintResponse() {
@@ -2068,10 +2354,11 @@
         }
 
         // ===== INITIALIZATION =====
+        // This ensures the code runs after the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', () => {
             populateMess();
             populateMaid();
-            updatePageLanguage();
+            // Initial language setting is handled by setLanguage call in DOMContentLoaded listener
         });
     </script>
 </body>
