@@ -1,0 +1,2078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayEasy - Bachelor Living Made Easy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== ROOT VARIABLES & DESIGN TOKENS ===== */
+        :root {
+            --primary-navy: #0D1B2A;
+            --primary-teal: #00A8A8;
+            --bg-light: #F4F4F4;
+            --bg-white: #FFFFFF;
+            --accent-yellow: #F5B041;
+            --text-dark: #1A1A1A;
+            --text-light: #666666;
+            --border-color: #E0E0E0;
+            --success-green: #27AE60;
+            --warning-red: #E74C3C;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        /* ===== GLOBAL STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+        }
+
+        body.bangla {
+            font-family: 'Noto Sans Bengali', 'Poppins', sans-serif;
+        }
+
+        /* ===== TYPOGRAPHY ===== */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 2rem; }
+        h3 { font-size: 1.5rem; }
+        h4 { font-size: 1.25rem; }
+        h5 { font-size: 1.1rem; }
+        h6 { font-size: 1rem; }
+
+        p { font-size: 1rem; color: var(--text-light); }
+
+        /* ===== LAYOUT ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background-color: var(--primary-navy);
+            color: var(--bg-white);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-md);
+        }
+
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .navbar-logo i {
+            color: var(--accent-yellow);
+        }
+
+        .navbar-nav {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .navbar-nav a {
+            color: var(--bg-white);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .navbar-nav a:hover {
+            color: var(--accent-yellow);
+        }
+
+        .navbar-nav a.active {
+            color: var(--accent-yellow);
+            border-bottom: 2px solid var(--accent-yellow);
+            padding-bottom: 0.25rem;
+        }
+
+        .language-toggle {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: 1px solid var(--bg-white);
+            color: var(--bg-white);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+
+        .lang-btn.active {
+            background-color: var(--accent-yellow);
+            color: var(--primary-navy);
+            border-color: var(--accent-yellow);
+        }
+
+        .lang-btn:hover {
+            background-color: var(--accent-yellow);
+            color: var(--primary-navy);
+        }
+
+        /* ===== BREADCRUMB ===== */
+        .breadcrumb {
+            background-color: var(--bg-white);
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb-list li {
+            color: var(--text-light);
+        }
+
+        .breadcrumb-list li a {
+            color: var(--primary-teal);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .breadcrumb-list li a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb-list li.active {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-teal);
+            color: var(--bg-white);
+        }
+
+        .btn-primary:hover {
+            background-color: #008888;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-white);
+            color: var(--primary-teal);
+            border: 2px solid var(--primary-teal);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary-teal);
+            color: var(--bg-white);
+        }
+
+        .btn-danger {
+            background-color: var(--warning-red);
+            color: var(--bg-white);
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-success {
+            background-color: var(--success-green);
+            color: var(--bg-white);
+        }
+
+        .btn-success:hover {
+            background-color: #229954;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background-color: var(--bg-white);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-4px);
+        }
+
+        .card-header {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary-navy);
+        }
+
+        .card-body {
+            margin-bottom: 1rem;
+        }
+
+        .card-footer {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* ===== FORMS ===== */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-teal);
+            box-shadow: 0 0 0 3px rgba(0, 168, 168, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-check input[type="checkbox"],
+        .form-check input[type="radio"] {
+            width: auto;
+            cursor: pointer;
+        }
+
+        /* ===== MODALS ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: var(--bg-white);
+            border-radius: var(--radius);
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h2 {
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--text-dark);
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        /* ===== ALERTS ===== */
+        .alert {
+            padding: 1rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+
+        .alert-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        /* ===== GRID & FLEX ===== */
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .flex {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .flex-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, #1a2f4a 100%);
+            color: var(--bg-white);
+            padding: 4rem 0;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ===== FEATURE CARDS ===== */
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary-teal);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* ===== TABS ===== */
+        .tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab-btn.active {
+            color: var(--primary-teal);
+            border-bottom-color: var(--primary-teal);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* ===== FILTERS ===== */
+        .filters {
+            background-color: var(--bg-white);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .filter-row:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ===== TABLES ===== */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--bg-white);
+        }
+
+        thead {
+            background-color: var(--primary-navy);
+            color: var(--bg-white);
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        tbody tr:hover {
+            background-color: var(--bg-light);
+        }
+
+        /* ===== BADGES ===== */
+        .badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .badge-warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .badge-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background-color: var(--primary-navy);
+            color: var(--bg-white);
+            padding: 2rem 0;
+            margin-top: 4rem;
+            border-top: 3px solid var(--accent-yellow);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: var(--accent-yellow);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-yellow);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 0.9rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent-yellow);
+            color: var(--primary-navy);
+            border-radius: 50%;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+            h3 { font-size: 1.25rem; }
+
+            .navbar-nav {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .hero {
+                padding: 2rem 0;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .hero-buttons .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+            .tab-btn {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .filter-row {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+            }
+        }
+
+        /* ===== PRINT STYLES ===== */
+        @media print {
+            .navbar, .footer, .breadcrumb, .btn, .modal {
+                display: none !important;
+            }
+
+            .page {
+                page-break-after: always;
+                padding: 0;
+                min-height: auto;
+            }
+
+            body {
+                background-color: white;
+            }
+
+            .card {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+
+        .text-center { text-align: center; }
+        .text-muted { color: var(--text-light); }
+        .text-success { color: var(--success-green); }
+        .text-danger { color: var(--warning-red); }
+
+        .hidden { display: none; }
+        .visible { display: block; }
+
+        .verification-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: var(--success-green);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .verification-badge i {
+            color: var(--success-green);
+        }
+
+        .facility-icons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .facility-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.85rem;
+        }
+
+        .facility-icon i {
+            font-size: 1.5rem;
+            color: var(--primary-teal);
+        }
+
+        .rating {
+            display: flex;
+            gap: 0.25rem;
+            align-items: center;
+        }
+
+        .rating i {
+            color: var(--accent-yellow);
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-available {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-occupied {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="navbar-logo">
+                    <i class="fas fa-home"></i>
+                    <span data-en="StayEasy" data-bn="স্টে-ইজি">StayEasy</span>
+                </div>
+                <ul class="navbar-nav">
+                    <li><a onclick="navigateTo('home')" class="nav-link active" data-en="Home" data-bn="হোম">Home</a></li>
+                    <li><a onclick="navigateTo('mess')" class="nav-link" data-en="Mess" data-bn="মেস">Mess</a></li>
+                    <li><a onclick="navigateTo('maid')" class="nav-link" data-en="Maid" data-bn="বুয়া">Maid</a></li>
+                    <li><a onclick="navigateTo('payment')" class="nav-link" data-en="Payment" data-bn="পেমেন্ট">Payment</a></li>
+                    <li><a onclick="navigateTo('complaint')" class="nav-link" data-en="Complaint" data-bn="অভিযোগ">Complaint</a></li>
+                    <li><a onclick="navigateTo('profile')" class="nav-link" data-en="Profile" data-bn="প্রোফাইল">Profile</a></li>
+                </ul>
+                <div class="language-toggle">
+                    <button class="lang-btn active" onclick="setLanguage('en')" data-en="🇬🇧 English" data-bn="🇬🇧 English">🇬🇧 English</button>
+                    <button class="lang-btn" onclick="setLanguage('bn')" data-en="🇧🇩 বাংলা" data-bn="🇧🇩 বাংলা">🇧🇩 বাংলা</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== PAGES ===== -->
+
+    <!-- HOME PAGE -->
+    <div id="home" class="page active">
+        <div class="hero">
+            <div class="container">
+                <h1 data-en="StayEasy" data-bn="স্টে-ইজি">StayEasy</h1>
+                <p data-en="Simplifying Bachelor Living" data-bn="ব্যাচেলর জীবনের সহজ সমাধান">Simplifying Bachelor Living</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="navigateTo('mess')" data-en="Explore Mess" data-bn="মেস এক্সপ্লোর করুন">Explore Mess</button>
+                    <button class="btn btn-secondary" onclick="navigateTo('maid')" data-en="Hire Maid" data-bn="বুয়া নিয়োগ করুন">Hire Maid</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="grid grid-3">
+                <div class="card feature-card">
+                    <div class="feature-icon"><i class="fas fa-building"></i></div>
+                    <h3 data-en="Mess Booking" data-bn="মেস বুকিং">Mess Booking</h3>
+                    <p data-en="Find verified messes easily with all facilities" data-bn="সমস্ত সুবিধা সহ যাচাইকৃত মেস সহজেই খুঁজুন">Find verified messes easily with all facilities</p>
+                    <button class="btn btn-primary btn-sm" onclick="navigateTo('mess')" data-en="Explore Now" data-bn="এখনই এক্সপ্লোর করুন">Explore Now</button>
+                </div>
+
+                <div class="card feature-card">
+                    <div class="feature-icon"><i class="fas fa-user-tie"></i></div>
+                    <h3 data-en="Maid Hiring" data-bn="বুয়া নিয়োগ">Maid Hiring</h3>
+                    <p data-en="Hire trusted domestic helpers for your needs" data-bn="আপনার প্রয়োজনের জন্য বিশ্বস্ত গৃহকর্মী নিয়োগ করুন">Hire trusted domestic helpers for your needs</p>
+                    <button class="btn btn-primary btn-sm" onclick="navigateTo('maid')" data-en="Explore Now" data-bn="এখনই এক্সপ্লোর করুন">Explore Now</button>
+                </div>
+
+                <div class="card feature-card">
+                    <div class="feature-icon"><i class="fas fa-credit-card"></i></div>
+                    <h3 data-en="Rent & Payment" data-bn="ভাড়া ও পেমেন্ট">Rent & Payment</h3>
+                    <p data-en="Pay digitally with ease and track history" data-bn="সহজেই ডিজিটালি পেমেন্ট করুন এবং ইতিহাস ট্র্যাক করুন">Pay digitally with ease and track history</p>
+                    <button class="btn btn-primary btn-sm" onclick="navigateTo('payment')" data-en="Explore Now" data-bn="এখনই এক্সপ্লোর করুন">Explore Now</button>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <h2 class="text-center mb-3" data-en="What Our Users Say" data-bn="আমাদের ব্যবহারকারীরা কী বলেন">What Our Users Say</h2>
+                <div class="grid grid-2">
+                    <div class="card">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="mt-2" data-en="Great platform! Found a perfect mess within minutes." data-bn="দুর্দান্ত প্ল্যাটফর্ম! কয়েক মিনিটের মধ্যে নিখুঁত মেস খুঁজে পেয়েছি।">Great platform! Found a perfect mess within minutes.</p>
+                        <p class="text-muted" data-en="- Rahul, Dhaka" data-bn="- রাহুল, ঢাকা">- Rahul, Dhaka</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="mt-2" data-en="Hiring a maid was never this easy. Highly recommended!" data-bn="বুয়া নিয়োগ কখনো এত সহজ ছিল না। অত্যন্ত সুপারিশকৃত!">Hiring a maid was never this easy. Highly recommended!</p>
+                        <p class="text-muted" data-en="- Priya, Chittagong" data-bn="- প্রিয়া, চট্টগ্রাম">- Priya, Chittagong</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIN PAGE -->
+    <div id="login" class="page">
+        <div class="container" style="max-width: 500px; margin-top: 3rem;">
+            <div class="card">
+                <div class="card-header text-center" data-en="Login / Register" data-bn="লগইন / রেজিস্টার">Login / Register</div>
+
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="switchTab('login-tab')" data-en="Login" data-bn="লগইন">Login</button>
+                    <button class="tab-btn" onclick="switchTab('register-tab')" data-en="Register" data-bn="রেজিস্টার">Register</button>
+                </div>
+
+                <!-- LOGIN TAB -->
+                <div id="login-tab" class="tab-content active">
+                    <form onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label data-en="Email or Phone" data-bn="ইমেইল বা ফোন">Email or Phone</label>
+                            <input type="text" required placeholder="example@email.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label data-en="Password" data-bn="পাসওয়ার্ড">Password</label>
+                            <input type="password" required placeholder="••••••••">
+                        </div>
+
+                        <div class="form-check">
+                            <input type="checkbox" id="remember">
+                            <label for="remember" data-en="Remember me" data-bn="আমাকে মনে রাখুন">Remember me</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block" data-en="Login" data-bn="লগইন">Login</button>
+                    </form>
+
+                    <p class="text-center mt-2">
+                        <a href="#" onclick="navigateTo('home')" class="text-muted" data-en="Forgot Password?" data-bn="পাসওয়ার্ড ভুলে গেছেন?">Forgot Password?</a>
+                    </p>
+                </div>
+
+                <!-- REGISTER TAB -->
+                <div id="register-tab" class="tab-content">
+                    <form onsubmit="handleRegister(event)">
+                        <div class="form-group">
+                            <label data-en="Full Name" data-bn="সম্পূর্ণ নাম">Full Name</label>
+                            <input type="text" required placeholder="John Doe">
+                        </div>
+
+                        <div class="form-group">
+                            <label data-en="Email" data-bn="ইমেইল">Email</label>
+                            <input type="email" required placeholder="example@email.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label data-en="User Type" data-bn="ব্যবহারকারী ধরন">User Type</label>
+                            <select required>
+                                <option value="">Select Type</option>
+                                <option value="tenant" data-en="Tenant (Bachelor)" data-bn="ভাড়াটে (ব্যাচেলর)">Tenant (Bachelor)</option>
+                                <option value="owner" data-en="Mess Owner" data-bn="মেস মালিক">Mess Owner</option>
+                                <option value="maid" data-en="Maid" data-bn="বুয়া">Maid</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label data-en="Password" data-bn="পাসওয়ার্ড">Password</label>
+                            <input type="password" required placeholder="••••••••">
+                        </div>
+
+                        <div class="form-group">
+                            <label data-en="Confirm Password" data-bn="পাসওয়ার্ড নিশ্চিত করুন">Confirm Password</label>
+                            <input type="password" required placeholder="••••••••">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block" data-en="Register" data-bn="রেজিস্টার">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MESS PAGE -->
+    <div id="mess" class="page">
+        <div class="breadcrumb">
+            <div class="container">
+                <ul class="breadcrumb-list">
+                    <li><a onclick="navigateTo('home')" data-en="Home" data-bn="হোম">Home</a></li>
+                    <li><i class="fas fa-chevron-right"></i></li>
+                    <li class="active" data-en="Mess Booking" data-bn="মেস বুকিং">Mess Booking</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="container">
+            <h1 class="mb-3" data-en="Find Your Perfect Mess" data-bn="আপনার নিখুঁত মেস খুঁজুন">Find Your Perfect Mess</h1>
+
+            <!-- FILTERS -->
+            <div class="filters">
+                <div class="filter-row">
+                    <div class="form-group">
+                        <label data-en="Location" data-bn="অবস্থান">Location</label>
+                        <select id="messLocation">
+                            <option value="">All Locations</option>
+                            <option value="dhaka" data-en="Dhaka" data-bn="ঢাকা">Dhaka</option>
+                            <option value="chittagong" data-en="Chittagong" data-bn="চট্টগ্রাম">Chittagong</option>
+                            <option value="sylhet" data-en="Sylhet" data-bn="সিলেট">Sylhet</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label data-en="Rent Range" data-bn="ভাড়া সীমা">Rent Range</label>
+                        <select id="messRent">
+                            <option value="">All Ranges</option>
+                            <option value="5000" data-en="Below 5000" data-bn="৫০০০ এর নিচে">Below 5000</option>
+                            <option value="10000" data-en="5000 - 10000" data-bn="৫০০০ - ১০০০০">5000 - 10000</option>
+                            <option value="15000" data-en="10000 - 15000" data-bn="১০০০০ - ১৫০০০">10000 - 15000</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label data-en="Facilities" data-bn="সুবিধা">Facilities</label>
+                        <select id="messFacility">
+                            <option value="">All Facilities</option>
+                            <option value="wifi" data-en="Wi-Fi" data-bn="ওয়াই-ফাই">Wi-Fi</option>
+                            <option value="food" data-en="Food" data-bn="খাবার">Food</option>
+                            <option value="security" data-en="Security" data-bn="নিরাপত্তা">Security</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="filterMess()" data-en="Search" data-bn="খুঁজুন">Search</button>
+            </div>
+
+            <!-- MESS CARDS -->
+            <div id="messContainer" class="grid grid-2">
+                <!-- Mess cards will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MAID PAGE -->
+    <div id="maid" class="page">
+        <div class="breadcrumb">
+            <div class="container">
+                <ul class="breadcrumb-list">
+                    <li><a onclick="navigateTo('home')" data-en="Home" data-bn="হোম">Home</a></li>
+                    <li><i class="fas fa-chevron-right"></i></li>
+                    <li class="active" data-en="Maid Services" data-bn="বুয়া সেবা">Maid Services</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="container">
+            <h1 class="mb-3" data-en="Hire Trusted Maids" data-bn="বিশ্বস্ত বুয়া নিয়োগ করুন">Hire Trusted Maids</h1>
+
+            <!-- FILTERS -->
+            <div class="filters">
+                <div class="filter-row">
+                    <div class="form-group">
+                        <label data-en="Work Type" data-bn="কাজের ধরন">Work Type</label>
+                        <select id="maidType">
+                            <option value="">All Types</option>
+                            <option value="cooking" data-en="Cooking" data-bn="রান্না">Cooking</option>
+                            <option value="cleaning" data-en="Cleaning" data-bn="পরিষ্কার">Cleaning</option>
+                            <option value="laundry" data-en="Laundry" data-bn="কাপড় ধোয়া">Laundry</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label data-en="Availability" data-bn="উপলব্ধতা">Availability</label>
+                        <select id="maidAvailability">
+                            <option value="">All</option>
+                            <option value="available" data-en="Available" data-bn="উপলব্ধ">Available</option>
+                            <option value="occupied" data-en="Occupied" data-bn="ব্যস্ত">Occupied</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label data-en="Experience Level" data-bn="অভিজ্ঞতা স্তর">Experience Level</label>
+                        <select id="maidExperience">
+                            <option value="">All Levels</option>
+                            <option value="beginner" data-en="Beginner" data-bn="শিক্ষানবিস">Beginner</option>
+                            <option value="intermediate" data-en="Intermediate" data-bn="মধ্যম">Intermediate</option>
+                            <option value="expert" data-en="Expert" data-bn="বিশেষজ্ঞ">Expert</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="filterMaid()" data-en="Search" data-bn="খুঁজুন">Search</button>
+            </div>
+
+            <!-- MAID CARDS -->
+            <div id="maidContainer" class="grid grid-3">
+                <!-- Maid cards will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- PAYMENT PAGE -->
+    <div id="payment" class="page">
+        <div class="breadcrumb">
+            <div class="container">
+                <ul class="breadcrumb-list">
+                    <li><a onclick="navigateTo('home')" data-en="Home" data-bn="হোম">Home</a></li>
+                    <li><i class="fas fa-chevron-right"></i></li>
+                    <li class="active" data-en="Rent & Payment" data-bn="ভাড়া ও পেমেন্ট">Rent & Payment</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="container">
+            <h1 class="mb-3" data-en="Manage Your Rent Payments" data-bn="আপনার ভাড়া পেমেন্ট পরিচালনা করুন">Manage Your Rent Payments</h1>
+
+            <div class="grid grid-2">
+                <!-- RENT DETAILS -->
+                <div class="card">
+                    <div class="card-header" data-en="Current Rent Details" data-bn="বর্তমান ভাড়া বিবরণ">Current Rent Details</div>
+                    <div class="card-body">
+                        <div class="flex-between mb-2">
+                            <span data-en="Monthly Rent:" data-bn="মাসিক ভাড়া:">Monthly Rent:</span>
+                            <strong>৳ 8,000</strong>
+                        </div>
+                        <div class="flex-between mb-2">
+                            <span data-en="Due Date:" data-bn="পরিশোধের তারিখ:">Due Date:</span>
+                            <strong>5th of each month</strong>
+                        </div>
+                        <div class="flex-between mb-2">
+                            <span data-en="Status:" data-bn="অবস্থা:">Status:</span>
+                            <span class="badge badge-success" data-en="Paid" data-bn="পরিশোধিত">Paid</span>
+                        </div>
+                        <div class="alert alert-warning mt-3">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span data-en="Next payment due in 5 days" data-bn="পরবর্তী পেমেন্ট ৫ দিনে পরিশোধ্য">Next payment due in 5 days</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary" onclick="openPaymentModal()" data-en="Pay Rent" data-bn="ভাড়া দিন">Pay Rent</button>
+                        <button class="btn btn-secondary" data-en="Request Refund" data-bn="রিফান্ড অনুরোধ করুন">Request Refund</button>
+                    </div>
+                </div>
+
+                <!-- PAYMENT METHODS -->
+                <div class="card">
+                    <div class="card-header" data-en="Payment Methods" data-bn="পেমেন্ট পদ্ধতি">Payment Methods</div>
+                    <div class="card-body">
+                        <div class="form-check">
+                            <input type="radio" name="payment" id="bkash" value="bkash" checked>
+                            <label for="bkash"><i class="fas fa-mobile-alt"></i> bKash</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" name="payment" id="nagad" value="nagad">
+                            <label for="nagad"><i class="fas fa-mobile-alt"></i> Nagad</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" name="payment" id="bank" value="bank">
+                            <label for="bank"><i class="fas fa-university"></i> Bank Transfer</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAYMENT HISTORY -->
+            <div class="card mt-4">
+                <div class="card-header" data-en="Payment History" data-bn="পেমেন্ট ইতিহাস">Payment History</div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-en="Month" data-bn="মাস">Month</th>
+                                <th data-en="Amount" data-bn="পরিমাণ">Amount</th>
+                                <th data-en="Date" data-bn="তারিখ">Date</th>
+                                <th data-en="Status" data-bn="অবস্থা">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>October 2024</td>
+                                <td>৳ 8,000</td>
+                                <td>October 5, 2024</td>
+                                <td><span class="badge badge-success" data-en="Paid" data-bn="পরিশোধিত">Paid</span></td>
+                            </tr>
+                            <tr>
+                                <td>September 2024</td>
+                                <td>৳ 8,000</td>
+                                <td>September 5, 2024</td>
+                                <td><span class="badge badge-success" data-en="Paid" data-bn="পরিশোধিত">Paid</span></td>
+                            </tr>
+                            <tr>
+                                <td>August 2024</td>
+                                <td>৳ 8,000</td>
+                                <td>August 7, 2024</td>
+                                <td><span class="badge badge-warning" data-en="Late" data-bn="দেরি">Late</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- COMPLAINT PAGE -->
+    <div id="complaint" class="page">
+        <div class="breadcrumb">
+            <div class="container">
+                <ul class="breadcrumb-list">
+                    <li><a onclick="navigateTo('home')" data-en="Home" data-bn="হোম">Home</a></li>
+                    <li><i class="fas fa-chevron-right"></i></li>
+                    <li class="active" data-en="Complaints" data-bn="অভিযোগ">Complaints</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="container">
+            <h1 class="mb-3" data-en="Submit & Track Complaints" data-bn="অভিযোগ জমা দিন এবং ট্র্যাক করুন">Submit & Track Complaints</h1>
+
+            <div class="grid grid-2">
+                <!-- COMPLAINT FORM -->
+                <div class="card">
+                    <div class="card-header" data-en="Submit New Complaint" data-bn="নতুন অভিযোগ জমা দিন">Submit New Complaint</div>
+                    <form onsubmit="handleComplaint(event)">
+                        <div class="form-group">
+                            <label data-en="Your Name" data-bn="আপনার নাম">Your Name</label>
+                            <input type="text" required placeholder="John Doe">
+                        </div>
+
+                        <div class="form-group">
+                            <label data-en="Your Role" data-bn="আপনার ভূমিকা">Your Role</label>
+                            <select required>
+                                <option value="">Select Role</option>
+                                <option value="tenant" data-en="Tenant" data-bn="ভাড়াটে">Tenant</option>
+                                <option value="owner" data-en="Mess Owner" data-bn="মেস মালিক">Mess Owner</option>
+                                <option value="maid" data-en="Maid" data-bn="বুয়া">Maid</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label data-en="Issue Description" data-bn="সমস্যার বর্ণনা">Issue Description</label>
+                            <textarea required placeholder="Describe your issue in detail..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block" data-en="Submit Complaint" data-bn="অভিযোগ জমা দিন">Submit Complaint</button>
+                    </form>
+                </div>
+
+                <!-- COMPLAINT STATUS -->
+                <div class="card">
+                    <div class="card-header" data-en="Your Complaints" data-bn="আপনার অভিযোগ">Your Complaints</div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th data-en="ID" data-bn="আইডি">ID</th>
+                                    <th data-en="Status" data-bn="অবস্থা">Status</th>
+                                    <th data-en="Action" data-bn="পদক্ষেপ">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#C001</td>
+                                    <td><span class="badge badge-success" data-en="Resolved" data-bn="সমাধান করা হয়েছে">Resolved</span></td>
+                                    <td><button class="btn btn-sm btn-secondary" onclick="viewComplaintResponse()" data-en="View" data-bn="দেখুন">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#C002</td>
+                                    <td><span class="badge badge-warning" data-en="Pending" data-bn="অপেক্ষমাণ">Pending</span></td>
+                                    <td><button class="btn btn-sm btn-secondary" data-en="View" data-bn="দেখুন">View</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROFILE PAGE -->
+    <div id="profile" class="page">
+        <div class="breadcrumb">
+            <div class="container">
+                <ul class="breadcrumb-list">
+                    <li><a onclick="navigateTo('home')" data-en="Home" data-bn="হোম">Home</a></li>
+                    <li><i class="fas fa-chevron-right"></i></li>
+                    <li class="active" data-en="Profile" data-bn="প্রোফাইল">Profile</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="container">
+            <h1 class="mb-3" data-en="My Profile" data-bn="আমার প্রোফাইল">My Profile</h1>
+
+            <div class="grid grid-2">
+                <!-- PROFILE INFO -->
+                <div class="card">
+                    <div class="card-header" data-en="Profile Information" data-bn="প্রোফাইল তথ্য">Profile Information</div>
+                    <div class="card-body">
+                        <div class="flex-center mb-3">
+                            <div style="width: 100px; height: 100px; background-color: var(--bg-light); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-user" style="font-size: 3rem; color: var(--primary-teal);"></i>
+                            </div>
+                        </div>
+
+                        <div class="mb-2">
+                            <strong data-en="Name:" data-bn="নাম:">Name:</strong>
+                            <p>John Doe</p>
+                        </div>
+
+                        <div class="mb-2">
+                            <strong data-en="Email:" data-bn="ইমেইল:">Email:</strong>
+                            <p>john@example.com</p>
+                        </div>
+
+                        <div class="mb-2">
+                            <strong data-en="Phone:" data-bn="ফোন:">Phone:</strong>
+                            <p>+880 1234 567890</p>
+                        </div>
+
+                        <div class="mb-2">
+                            <strong data-en="Role:" data-bn="ভূমিকা:">Role:</strong>
+                            <p>Tenant (Bachelor)</p>
+                        </div>
+
+                        <div class="mb-2">
+                            <strong data-en="Verification Status:" data-bn="যাচাইকরণ অবস্থা:">Verification Status:</strong>
+                            <p><span class="verification-badge"><i class="fas fa-check-circle"></i> Verified</span></p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary" data-en="Edit Profile" data-bn="প্রোফাইল সম্পাদনা করুন">Edit Profile</button>
+                    </div>
+                </div>
+
+                <!-- VERIFICATION -->
+                <div class="card">
+                    <div class="card-header" data-en="Verification Documents" data-bn="যাচাইকরণ নথি">Verification Documents</div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <strong data-en="NID / ID Card" data-bn="এনআইডি / আইডি কার্ড">NID / ID Card</strong>
+                            <div style="width: 100%; height: 150px; background-color: var(--bg-light); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; margin-top: 0.5rem;">
+                                <i class="fas fa-image" style="font-size: 2rem; color: var(--text-light);"></i>
+                            </div>
+                            <p class="text-muted text-center mt-1" data-en="Click to upload or change" data-bn="আপলোড বা পরিবর্তন করতে ক্লিক করুন">Click to upload or change</p>
+                        </div>
+
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle"></i>
+                            <span data-en="Your documents are verified" data-bn="আপনার নথি যাচাই করা হয়েছে">Your documents are verified</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-secondary" data-en="Upload Documents" data-bn="নথি আপলোড করুন">Upload Documents</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header" data-en="Account Settings" data-bn="অ্যাকাউন্ট সেটিংস">Account Settings</div>
+                <div class="card-body">
+                    <button class="btn btn-secondary mr-2" data-en="Change Password" data-bn="পাসওয়ার্ড পরিবর্তন করুন">Change Password</button>
+                    <button class="btn btn-danger" data-en="Delete Account" data-bn="অ্যাকাউন্ট মুছুন">Delete Account</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN DASHBOARD PAGE -->
+    <div id="admin" class="page">
+        <div class="breadcrumb">
+            <div class="container">
+                <ul class="breadcrumb-list">
+                    <li><a onclick="navigateTo('home')" data-en="Home" data-bn="হোম">Home</a></li>
+                    <li><i class="fas fa-chevron-right"></i></li>
+                    <li class="active" data-en="Admin Dashboard" data-bn="অ্যাডমিন ড্যাশবোর্ড">Admin Dashboard</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="container">
+            <h1 class="mb-3" data-en="Admin Dashboard" data-bn="অ্যাডমিন ড্যাশবোর্ড">Admin Dashboard</h1>
+
+            <!-- STATS -->
+            <div class="grid grid-3 mb-4">
+                <div class="card">
+                    <div class="flex-between">
+                        <div>
+                            <p class="text-muted" data-en="Total Messes" data-bn="মোট মেস">Total Messes</p>
+                            <h2>245</h2>
+                        </div>
+                        <i class="fas fa-building" style="font-size: 2.5rem; color: var(--primary-teal); opacity: 0.3;"></i>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="flex-between">
+                        <div>
+                            <p class="text-muted" data-en="Active Maids" data-bn="সক্রিয় বুয়া">Active Maids</p>
+                            <h2>189</h2>
+                        </div>
+                        <i class="fas fa-user-tie" style="font-size: 2.5rem; color: var(--primary-teal); opacity: 0.3;"></i>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="flex-between">
+                        <div>
+                            <p class="text-muted" data-en="Total Users" data-bn="মোট ব্যবহারকারী">Total Users</p>
+                            <h2>1,234</h2>
+                        </div>
+                        <i class="fas fa-users" style="font-size: 2.5rem; color: var(--primary-teal); opacity: 0.3;"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PENDING APPROVALS -->
+            <div class="card mb-4">
+                <div class="card-header" data-en="Pending Mess Approvals" data-bn="অপেক্ষমাণ মেস অনুমোদন">Pending Mess Approvals</div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-en="Mess Name" data-bn="মেসের নাম">Mess Name</th>
+                                <th data-en="Owner" data-bn="মালিক">Owner</th>
+                                <th data-en="Location" data-bn="অবস্থান">Location</th>
+                                <th data-en="Action" data-bn="পদক্ষেপ">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Green Valley Mess</td>
+                                <td>Ahmed Khan</td>
+                                <td>Dhaka</td>
+                                <td>
+                                    <button class="btn btn-success btn-sm" data-en="Approve" data-bn="অনুমোদন করুন">Approve</button>
+                                    <button class="btn btn-danger btn-sm" data-en="Reject" data-bn="প্রত্যাখ্যান করুন">Reject</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Comfort Home Mess</td>
+                                <td>Fatima Begum</td>
+                                <td>Chittagong</td>
+                                <td>
+                                    <button class="btn btn-success btn-sm" data-en="Approve" data-bn="অনুমোদন করুন">Approve</button>
+                                    <button class="btn btn-danger btn-sm" data-en="Reject" data-bn="প্রত্যাখ্যান করুন">Reject</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- COMPLAINTS OVERVIEW -->
+            <div class="card">
+                <div class="card-header" data-en="Recent Complaints" data-bn="সাম্প্রতিক অভিযোগ">Recent Complaints</div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-en="ID" data-bn="আইডি">ID</th>
+                                <th data-en="User" data-bn="ব্যবহারকারী">User</th>
+                                <th data-en="Issue" data-bn="সমস্যা">Issue</th>
+                                <th data-en="Status" data-bn="অবস্থা">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#C001</td>
+                                <td>John Doe</td>
+                                <td>Maintenance Issue</td>
+                                <td><span class="badge badge-success" data-en="Resolved" data-bn="সমাধান করা হয়েছে">Resolved</span></td>
+                            </tr>
+                            <tr>
+                                <td>#C002</td>
+                                <td>Sarah Smith</td>
+                                <td>Payment Dispute</td>
+                                <td><span class="badge badge-warning" data-en="Pending" data-bn="অপেক্ষমাণ">Pending</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODALS ===== -->
+
+    <!-- MESS DETAILS MODAL -->
+    <div id="messModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-en="Mess Details" data-bn="মেসের বিবরণ">Mess Details</h2>
+                <button class="modal-close" onclick="closeModal('messModal')">&times;</button>
+            </div>
+            <div class="modal-body" id="messModalBody">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('messModal')" data-en="Close" data-bn="বন্ধ করুন">Close</button>
+                <button class="btn btn-primary" onclick="sendBookingRequest()" data-en="Send Booking Request" data-bn="বুকিং অনুরোধ পাঠান">Send Booking Request</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAID DETAILS MODAL -->
+    <div id="maidModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-en="Maid Profile" data-bn="বুয়ার প্রোফাইল">Maid Profile</h2>
+                <button class="modal-close" onclick="closeModal('maidModal')">&times;</button>
+            </div>
+            <div class="modal-body" id="maidModalBody">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('maidModal')" data-en="Close" data-bn="বন্ধ করুন">Close</button>
+                <button class="btn btn-primary" onclick="sendHireRequest()" data-en="Send Hire Request" data-bn="নিয়োগ অনুরোধ পাঠান">Send Hire Request</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAYMENT MODAL -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-en="Make Payment" data-bn="পেমেন্ট করুন">Make Payment</h2>
+                <button class="modal-close" onclick="closeModal('paymentModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label data-en="Amount" data-bn="পরিমাণ">Amount</label>
+                    <input type="number" value="8000" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label data-en="Payment Method" data-bn="পেমেন্ট পদ্ধতি">Payment Method</label>
+                    <select id="paymentMethod">
+                        <option value="bkash" data-en="bKash" data-bn="বিকাশ">bKash</option>
+                        <option value="nagad" data-en="Nagad" data-bn="নগদ">Nagad</option>
+                        <option value="bank" data-en="Bank Transfer" data-bn="ব্যাংক ট্রান্সফার">Bank Transfer</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label data-en="Transaction ID" data-bn="লেনদেন আইডি">Transaction ID</label>
+                    <input type="text" placeholder="Enter transaction ID">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('paymentModal')" data-en="Cancel" data-bn="বাতিল করুন">Cancel</button>
+                <button class="btn btn-primary" onclick="processPayment()" data-en="Confirm Payment" data-bn="পেমেন্ট নিশ্চিত করুন">Confirm Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4 data-en="About StayEasy" data-bn="স্টে-ইজি সম্পর্কে">About StayEasy</h4>
+                    <p data-en="Making bachelor living easier with verified messes, trusted maids, and seamless payments." data-bn="যাচাইকৃত মেস, বিশ্বস্ত বুয়া এবং নিরবচ্ছিন্ন পেমেন্টের মাধ্যমে ব্যাচেলর জীবনকে সহজ করা।">Making bachelor living easier with verified messes, trusted maids, and seamless payments.</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4 data-en="Quick Links" data-bn="দ্রুত লিঙ্ক">Quick Links</h4>
+                    <ul>
+                        <li><a onclick="navigateTo('home')" data-en="Home" data-bn="হোম">Home</a></li>
+                        <li><a onclick="navigateTo('mess')" data-en="Find Mess" data-bn="মেস খুঁজুন">Find Mess</a></li>
+                        <li><a onclick="navigateTo('maid')" data-en="Hire Maid" data-bn="বুয়া নিয়োগ করুন">Hire Maid</a></li>
+                        <li><a onclick="navigateTo('complaint')" data-en="Support" data-bn="সহায়তা">Support</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 data-en="Contact Us" data-bn="আমাদের সাথে যোগাযোগ করুন">Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> +880 1234 567890</li>
+                        <li><i class="fas fa-envelope"></i> support@stayeasy.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Dhaka, Bangladesh</li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 data-en="Follow Us" data-bn="আমাদের অনুসরণ করুন">Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p data-en="© 2025 StayEasy. All rights reserved." data-bn="© ২০২৪ স্টে-ইজি। সর্বাধিকার সংরক্ষিত।">© 2025 StayEasy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        // ===== LANGUAGE SYSTEM =====
+        let currentLanguage = 'en';
+        const translations = {
+            en: {},
+            bn: {}
+        };
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('stayeasy_language', lang);
+
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update body class
+            document.body.classList.toggle('bangla', lang === 'bn');
+
+            // Update all translatable elements
+            updatePageLanguage();
+        }
+
+        function updatePageLanguage() {
+            document.querySelectorAll('[data-en][data-bn]').forEach(element => {
+                const text = currentLanguage === 'en' ? element.getAttribute('data-en') : element.getAttribute('data-bn');
+                if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                    element.placeholder = text;
+                } else if (element.tagName === 'OPTION') {
+                    element.textContent = text;
+                } else {
+                    element.textContent = text;
+                }
+            });
+        }
+
+        // Initialize language from localStorage
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('stayeasy_language') || 'en';
+            if (savedLang === 'bn') {
+                document.querySelector('[onclick="setLanguage(\'bn\')"]').click();
+            }
+        });
+
+        // ===== NAVIGATION =====
+        function navigateTo(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+
+            // Show selected page
+            const page = document.getElementById(pageId);
+            if (page) {
+                page.classList.add('active');
+                window.scrollTo(0, 0);
+            }
+
+            // Update navbar active link
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Populate data if needed
+            if (pageId === 'mess') {
+                populateMess();
+            } else if (pageId === 'maid') {
+                populateMaid();
+            }
+        }
+
+        // ===== MODAL FUNCTIONS =====
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+
+        // ===== TAB FUNCTIONS =====
+        function switchTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // ===== DUMMY DATA =====
+        const messData = [
+            {
+                id: 1,
+                name: 'Green Valley Mess',
+                location: 'Dhaka',
+                rent: 8000,
+                image: '/placeholder.svg?height=200&width=300',
+                facilities: ['wifi', 'food', 'security'],
+                verified: true,
+                rating: 4.5,
+                reviews: 24
+            },
+            {
+                id: 2,
+                name: 'Comfort Home Mess',
+                location: 'Dhaka',
+                rent: 7500,
+                image: '/placeholder.svg?height=200&width=300',
+                facilities: ['wifi', 'food'],
+                verified: true,
+                rating: 4.2,
+                reviews: 18
+            },
+            {
+                id: 3,
+                name: 'Elite Residence',
+                location: 'Chittagong',
+                rent: 10000,
+                image: '/placeholder.svg?height=200&width=300',
+                facilities: ['wifi', 'food', 'security', 'electricity'],
+                verified: true,
+                rating: 4.8,
+                reviews: 32
+            },
+            {
+                id: 4,
+                name: 'Budget Stay',
+                location: 'Sylhet',
+                rent: 5000,
+                image: '/placeholder.svg?height=200&width=300',
+                facilities: ['wifi'],
+                verified: false,
+                rating: 3.8,
+                reviews: 12
+            }
+        ];
+
+        const maidData = [
+            {
+                id: 1,
+                name: 'Fatima Begum',
+                type: 'cooking',
+                availability: 'available',
+                experience: 'expert',
+                rate: 5000,
+                image: '/placeholder.svg?height=200&width=200',
+                verified: true,
+                rating: 4.7,
+                reviews: 28
+            },
+            {
+                id: 2,
+                name: 'Nasrin Akter',
+                type: 'cleaning',
+                availability: 'available',
+                experience: 'intermediate',
+                rate: 3000,
+                image: '/placeholder.svg?height=200&width=200',
+                verified: true,
+                rating: 4.3,
+                reviews: 15
+            },
+            {
+                id: 3,
+                name: 'Rehana Khatun',
+                type: 'laundry',
+                availability: 'occupied',
+                experience: 'beginner',
+                rate: 2000,
+                image: '/placeholder.svg?height=200&width=200',
+                verified: false,
+                rating: 3.9,
+                reviews: 8
+            },
+            {
+                id: 4,
+                name: 'Salma Begum',
+                type: 'cooking',
+                availability: 'available',
+                experience: 'intermediate',
+                rate: 4000,
+                image: '/placeholder.svg?height=200&width=200',
+                verified: true,
+                rating: 4.5,
+                reviews: 22
+            },
+            {
+                id: 5,
+                name: 'Jarina Akter',
+                type: 'cleaning',
+                availability: 'available',
+                experience: 'expert',
+                rate: 4500,
+                image: '/placeholder.svg?height=200&width=200',
+                verified: true,
+                rating: 4.6,
+                reviews: 31
+            },
+            {
+                id: 6,
+                name: 'Mina Begum',
+                type: 'laundry',
+                availability: 'available',
+                experience: 'intermediate',
+                rate: 2500,
+                image: '/placeholder.svg?height=200&width=200',
+                verified: true,
+                rating: 4.2,
+                reviews: 14
+            }
+        ];
+
+        // ===== MESS FUNCTIONS =====
+        function populateMess() {
+            const container = document.getElementById('messContainer');
+            container.innerHTML = '';
+
+            messData.forEach(mess => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <img src="${mess.image}" alt="${mess.name}" style="width: 100%; height: 200px; object-fit: cover; border-radius: var(--radius); margin-bottom: 1rem;">
+                    <h3>${mess.name}</h3>
+                    <p class="text-muted">${mess.location}</p>
+                    <div class="flex-between mb-2">
+                        <strong>৳ ${mess.rent}/month</strong>
+                        ${mess.verified ? '<span class="verification-badge"><i class="fas fa-check-circle"></i> Verified</span>' : ''}
+                    </div>
+                    <div class="facility-icons">
+                        ${mess.facilities.includes('wifi') ? '<div class="facility-icon"><i class="fas fa-wifi"></i><span>Wi-Fi</span></div>' : ''}
+                        ${mess.facilities.includes('food') ? '<div class="facility-icon"><i class="fas fa-utensils"></i><span>Food</span></div>' : ''}
+                        ${mess.facilities.includes('security') ? '<div class="facility-icon"><i class="fas fa-shield-alt"></i><span>Security</span></div>' : ''}
+                        ${mess.facilities.includes('electricity') ? '<div class="facility-icon"><i class="fas fa-bolt"></i><span>Electricity</span></div>' : ''}
+                    </div>
+                    <div class="rating mb-2">
+                        <i class="fas fa-star"></i>
+                        <span>${mess.rating} (${mess.reviews} reviews)</span>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-secondary btn-sm" onclick="viewMessDetails(${mess.id})">View Details</button>
+                        <button class="btn btn-primary btn-sm" onclick="bookMess(${mess.id})">Book Now</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterMess() {
+            // Simulate filtering
+            alert('Filtering messes...');
+            populateMess();
+        }
+
+        function viewMessDetails(messId) {
+            const mess = messData.find(m => m.id === messId);
+            const modalBody = document.getElementById('messModalBody');
+            modalBody.innerHTML = `
+                <img src="${mess.image}" alt="${mess.name}" style="width: 100%; height: 250px; object-fit: cover; border-radius: var(--radius); margin-bottom: 1rem;">
+                <h3>${mess.name}</h3>
+                <p class="text-muted">${mess.location}</p>
+                <div class="mb-2">
+                    <strong>Monthly Rent:</strong> ৳ ${mess.rent}
+                </div>
+                <div class="mb-2">
+                    <strong>Facilities:</strong>
+                    <div class="facility-icons">
+                        ${mess.facilities.includes('wifi') ? '<div class="facility-icon"><i class="fas fa-wifi"></i><span>Wi-Fi</span></div>' : ''}
+                        ${mess.facilities.includes('food') ? '<div class="facility-icon"><i class="fas fa-utensils"></i><span>Food</span></div>' : ''}
+                        ${mess.facilities.includes('security') ? '<div class="facility-icon"><i class="fas fa-shield-alt"></i><span>Security</span></div>' : ''}
+                        ${mess.facilities.includes('electricity') ? '<div class="facility-icon"><i class="fas fa-bolt"></i><span>Electricity</span></div>' : ''}
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <strong>Rating:</strong> ${mess.rating} ⭐ (${mess.reviews} reviews)
+                </div>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Contact the mess owner for more details and availability.</span>
+                </div>
+            `;
+            openModal('messModal');
+        }
+
+        function bookMess(messId) {
+            viewMessDetails(messId);
+        }
+
+        function sendBookingRequest() {
+            alert('Booking request sent! The mess owner will contact you soon.');
+            closeModal('messModal');
+        }
+
+        // ===== MAID FUNCTIONS =====
+        function populateMaid() {
+            const container = document.getElementById('maidContainer');
+            container.innerHTML = '';
+
+            maidData.forEach(maid => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <img src="${maid.image}" alt="${maid.name}" style="width: 100%; height: 200px; object-fit: cover; border-radius: var(--radius); margin-bottom: 1rem;">
+                    <h3>${maid.name}</h3>
+                    <p class="text-muted">${maid.type.charAt(0).toUpperCase() + maid.type.slice(1)}</p>
+                    <div class="flex-between mb-2">
+                        <strong>৳ ${maid.rate}/month</strong>
+                        <span class="status-badge status-${maid.availability}">${maid.availability.charAt(0).toUpperCase() + maid.availability.slice(1)}</span>
+                    </div>
+                    <div class="mb-2">
+                        <strong>Experience:</strong> ${maid.experience.charAt(0).toUpperCase() + maid.experience.slice(1)}
+                    </div>
+                    <div class="rating mb-2">
+                        <i class="fas fa-star"></i>
+                        <span>${maid.rating} (${maid.reviews} reviews)</span>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-secondary btn-sm" onclick="viewMaidDetails(${maid.id})">View Profile</button>
+                        <button class="btn btn-primary btn-sm" onclick="hireMaid(${maid.id})" ${maid.availability === 'occupied' ? 'disabled' : ''}>Hire Now</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterMaid() {
+            // Simulate filtering
+            alert('Filtering maids...');
+            populateMaid();
+        }
+
+        function viewMaidDetails(maidId) {
+            const maid = maidData.find(m => m.id === maidId);
+            const modalBody = document.getElementById('maidModalBody');
+            modalBody.innerHTML = `
+                <img src="${maid.image}" alt="${maid.name}" style="width: 100%; height: 250px; object-fit: cover; border-radius: var(--radius); margin-bottom: 1rem;">
+                <h3>${maid.name}</h3>
+                <div class="mb-2">
+                    <strong>Work Type:</strong> ${maid.type.charAt(0).toUpperCase() + maid.type.slice(1)}
+                </div>
+                <div class="mb-2">
+                    <strong>Experience:</strong> ${maid.experience.charAt(0).toUpperCase() + maid.experience.slice(1)}
+                </div>
+                <div class="mb-2">
+                    <strong>Monthly Rate:</strong> ৳ ${maid.rate}
+                </div>
+                <div class="mb-2">
+                    <strong>Status:</strong> <span class="status-badge status-${maid.availability}">${maid.availability.charAt(0).toUpperCase() + maid.availability.slice(1)}</span>
+                </div>
+                <div class="mb-2">
+                    <strong>Rating:</strong> ${maid.rating} ⭐ (${maid.reviews} reviews)
+                </div>
+                ${maid.verified ? '<div class="alert alert-success"><i class="fas fa-check-circle"></i> <span>Verified and trusted</span></div>' : '<div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> <span>Pending verification</span></div>'}
+            `;
+            openModal('maidModal');
+        }
+
+        function hireMaid(maidId) {
+            viewMaidDetails(maidId);
+        }
+
+        function sendHireRequest() {
+            alert('Hire request sent! The maid will contact you soon.');
+            closeModal('maidModal');
+        }
+
+        // ===== PAYMENT FUNCTIONS =====
+        function openPaymentModal() {
+            openModal('paymentModal');
+        }
+
+        function processPayment() {
+            alert('Payment processed successfully! Thank you for your payment.');
+            closeModal('paymentModal');
+        }
+
+        // ===== FORM HANDLERS =====
+        function handleLogin(e) {
+            e.preventDefault();
+            alert('Login successful! Welcome to StayEasy.');
+            navigateTo('home');
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            alert('Registration successful! Please check your email to verify your account.');
+            switchTab('login-tab');
+        }
+
+        function handleComplaint(e) {
+            e.preventDefault();
+            alert('Complaint submitted successfully! We will review it and get back to you soon.');
+            e.target.reset();
+        }
+
+        function viewComplaintResponse() {
+            alert('Response: Your complaint has been resolved. Thank you for your patience.');
+        }
+
+        // ===== INITIALIZATION =====
+        document.addEventListener('DOMContentLoaded', () => {
+            populateMess();
+            populateMaid();
+            updatePageLanguage();
+        });
+    </script>
+</body>
+</html>
